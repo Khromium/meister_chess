@@ -71,13 +71,13 @@ class Board:
                 # マスの状態が変わってるときの処理
                 if(board_pre[i] != '.' and board_next[i] != '.'):
                     # コマが変わったとき
-                    print("change " + str(i) + " : " + str(board_pre[i]) + " to " + str(board_next[i]) + "\n")
+                    print("change " + str(i) + " : " + str(board_pre[i]) + " to " + str(board_next[i]))
                 elif(board_pre[i] == '.'):
                     # コマをとらずにただ移動したときの移動先
-                    print(str(board_next[i]) + " move to " + str(i) + "\n")
+                    print(str(board_next[i]) + " move to " + str(i))
                 elif(board_next[i] == '.'):
                     # 移動した駒がもともといたマス もしくはアンパッサンで取られたマス
-                    print(str(board_pre[i]) + " move from " + str(i) + "\n")
+                    print(str(board_pre[i]) + " move from " + str(i))
                     
 
     def check_state(self):
