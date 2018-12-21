@@ -45,12 +45,40 @@ class Board:
         """
         for move in game.mainline_moves():
             self.check_move(move)
+            self._piece_move(move)
             self.board.push(move)
             self.check_state()
             print("---------------")
             print(self.board)
             print("---------------")
             print("\n")
+
+    def _piece_move(self, move):
+        """
+        手からコマの動きを推定します
+        :param move: 指した手
+        :return:
+        """
+        board_pre = str(self.board) # 動かす前の盤面
+        board_pre = board_pre.split()
+        self.board.push(move)
+        board_next = str(self.board) # 動かした後の盤面
+        board_next = board_next.split()
+        self.board.pop()
+
+        for i in range(64):
+            if(board_next[i] != board_pre[i]):
+                # マスの状態が変わってるときの処理
+                if(board_pre[i] != '.' and board_next[i] != '.'):
+                    # コマが変わったとき
+                    print("change " + str(i) + " : " + str(board_pre[i]) + " to " + str(board_next[i]) + "\n")
+                elif(board_pre[i] == '.'):
+                    # コマをとらずにただ移動したときの移動先
+                    print(str(board_next[i]) + " move to " + str(i) + "\n")
+                elif(board_next[i] == '.'):
+                    # 移動した駒がもともといたマス もしくはアンパッサンで取られたマス
+                    print(str(board_pre[i]) + " move from " + str(i) + "\n")
+                    
 
     def check_state(self):
         """
