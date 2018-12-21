@@ -1,5 +1,6 @@
 import chess
 import chess.pgn
+import chess.svg
 
 
 class Board:
@@ -70,6 +71,10 @@ class Board:
             print("it's fivefold repetition")
 
     def check_move(self, move: chess.Move):
+        """
+        動きが正常かどうか確認する部分
+        TODO: その他の動きも正常かどうか確認処理を追加する
+        """
         if not self.board.is_legal(move):
             print("動きが不正です")
         if self.board.is_castling(move) or self.board.is_kingside_castling(move):
