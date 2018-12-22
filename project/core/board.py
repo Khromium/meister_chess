@@ -61,10 +61,10 @@ class Board:
         :param move: 指した手
         :return arm_route: 手先の経路，-1~63のいずれかを要素に持つ配列，‐1は盤外を意味する
         """
-        board_pre = str(self.board) # 動かす前の盤面
+        board_pre = str(self.board)  # 動かす前の盤面
         board_pre = board_pre.split()
         self.board.push(move)
-        board_next = str(self.board) # 動かした後の盤面
+        board_next = str(self.board)  # 動かした後の盤面
         board_next = board_next.split()
         self.board.pop()
 
@@ -72,40 +72,36 @@ class Board:
         move_to_list = []
         move_from_list = []
         for i in range(64):
-            if(board_next[i] != board_pre[i]):
+            if board_next[i] != board_pre[i]:
                 # マスの状態が変わってるときの処理
-                if(board_pre[i] != '.' and board_next[i] != '.'):
+                if board_pre[i] != '.' and board_next[i] != '.':
                     # コマが変わったとき
                     change_list.append(i)
-                    # print("change " + str(i) + " : " + str(board_pre[i]) + " to " + str(board_next[i]))
-                elif(board_pre[i] == '.'):
+                elif board_pre[i] == '.':
                     # コマをとらずにただ移動したときの移動先
                     move_to_list.append(i)
-                    # print(str(board_next[i]) + " move to " + str(i))
-                elif(board_next[i] == '.'):
+                elif board_next[i] == '.':
                     # 移動した駒がもともといたマス もしくはアンパッサンで取られたマス
                     move_from_list.append(i)
-                    # print(str(board_pre[i]) + " move from " + str(i))
-        
-        if(len(move_from_list) == 1):
-            if(len(change_list) == 1):
+
+        if len(move_from_list) == 1:
+            if len(change_list) == 1:
                 # コマをとるときの動作
                 return [change_list[0], -1, move_from_list[0], change_list[0]]
             else:
                 # コマを動かすだけの操作
                 return [move_from_list[0], move_to_list[0]]
         else:
-            if(len(move_to_list) == 2):
+            if len(move_to_list) == 2:
                 # キャスリング（本来キングから動かすべきだが気にしないことにする）
                 return [move_from_list[0], move_to_list[1], move_from_list[1], move_to_list[0]]
             else:
                 # アンパッサン
-                if((move_to_list[0] - move_from_list[0]) == 8):
+                if (move_to_list[0] - move_from_list[0]) == 8:
                     # move_from_list[0]がアンパッサンされるポーン
                     return [move_from_list[1], move_to_list[0], move_from_list[0], -1]
                 else:
                     return [move_from_list[0], move_to_list[0], move_from_list[1], -1]
-
 
     def check_state(self):
         """
