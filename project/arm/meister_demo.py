@@ -13,14 +13,10 @@ if __name__ == '__main__':
     Servo2 = sc.servo(Channel=2, ZeroOffset=-5.0)
     Servo3 = sc.servo(Channel=3, ZeroOffset=-5.0)
     Servo4 = sc.servo(Channel=4, ZeroOffset=-5.0)
-    Servo5 = sc.servo(Channel=5, ZeroOffset=-5.0)
     
-    arm = ac.arm(Servo0, Servo1, Servo2, Servo3, Servo4, Servo5)
+    arm = ac.arm(Servo0, Servo1, Servo2, Servo3, Servo4)
 
     try:
-        print('home')
-        arm.home_pos()
-        
         print('a1')
         arm.move_pos(56)
         print('a6')
@@ -40,8 +36,6 @@ if __name__ == '__main__':
         
         time.sleep(1)
         
-        
-            
     except KeyboardInterrupt  :         #Ctl+Cが押されたらループを終了
         print("\nCtl+C")
     except Exception as e:
