@@ -30,11 +30,14 @@ class ChessMachine:
         try:
             while True:
                 pos_str = input()
-                if len(pos_str) == 2: # 普通の指令のとき
+                if len(pos_str) == 2 and pos_str[0] in 'abcdefgh': # 普通の指令のとき
                     pos_str = pos_str.translate(str.maketrans({'a':'0','b':'1','c':'2','d':'3','e':'4','f':'5','g':'6','h':'7'}))
                     pos = int(pos_str[0]) + 8*(8 - int(pos_str[1]))
                 elif pos_str == 'x':
                     pos = 64
+                else:
+                    print('正しく入力して下さい．終了するときはCtrl+C')
+                    continue
                 self.arm.move_pos(pos)
             self.arm.home_pos()
                 

@@ -17,6 +17,8 @@ if __name__ == '__main__':
     board = Board()
     machine = ChessMachine(board, arm)
 
+    #print('ファイル名を入力してください')
+    #path = input()
     game = board.load_pgn("./test.pgn")
     machine.play_record(game)
     
