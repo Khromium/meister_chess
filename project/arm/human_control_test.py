@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import arm_controler as ac
-import servo_controler as sc
-from board import Board
-from chess_machine import ChessMachine
+import arm.arm_controler as ac
+import arm.servo_controler as sc
+from core.board import Board
+from arm.chess_machine import ChessMachine
 
 if __name__ == '__main__':
     # servo * 6

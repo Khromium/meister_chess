@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 import Adafruit_PCA9685
 import time
-import arm_controler as ac
-import servo_controler as sc
+import core.arm_controler as ac
+import core.servo_controler as sc
 
 """制御を行うメインの部分です"""
 if __name__ == '__main__':

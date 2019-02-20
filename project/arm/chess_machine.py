@@ -1,6 +1,6 @@
 import Adafruit_PCA9685
-import arm_controler as ac
-from board import Board
+import arm.arm_controler as ac
+from core.board import Board
 
 class ChessMachine:
     def __init__(self, board, arm):
