@@ -12,6 +12,7 @@ from google.assistant.library import Assistant
 from google.assistant.library.event import EventType
 from google.assistant.library.file_helpers import existing_file
 
+
 class Assist:
     # 辞書オブジェクトの定義
     speechdata = {}
@@ -22,7 +23,7 @@ class Assist:
         """
         初期化部分でJSONの初期化とGoogle assistantの有効化を行っている
         なお、認証時には
-        /root/.config/google-oauthlib-tool/credentials.json
+        /.config/google-oauthlib-tool/credentials.json
         に認証ファイルが必要
         """
         # Jsonデータ初期化
@@ -30,19 +31,18 @@ class Assist:
         # GoogleAssistantSDK認証
         parser = argparse.ArgumentParser(
             formatter_class=argparse.RawTextHelpFormatter)
-        parser.add_argument('--credentials', type=existing_file,
-                            metavar='OAUTH2_CREDENTIALS_FILE',
+        parser.add_argument("--credentials", type=existing_file,
+                            metavar="OAUTH2_CREDENTIALS_FILE",
                             default=os.path.join(
-                                os.path.expanduser('~/.config'),
-                                'google-oauthlib-tool',
-                                'credentials.json'
+                                os.path.expanduser("~/.config"),
+                                "google-oauthlib-tool",
+                                "credentials.json"
                             ),
-                            help='Path to store and read OAuth2 credentials')
+                            help="Path to store and read OAuth2 credentials")
         args = parser.parse_args()
-        with open(args.credentials, 'r') as f:
+        with open(args.credentials, "r") as f:
             self.credentials = google.oauth2.credentials.Credentials(token=None,
-                                                                **json.load(f))
-
+                                                                     **json.load(f))
 
     def writeJson(self, path, data):
         """
@@ -51,7 +51,7 @@ class Assist:
         :param data:
         :return:
         """
-        with open(path, 'w') as f:
+        with open(path, "w") as f:
             json.dump(data, f, indent=4)
 
     def initJson(self):
@@ -60,9 +60,9 @@ class Assist:
         :return:
         """
         self.speechdata = {
-            'status': 'waiting',
-            'txtStatus': 'waiting',
-            'txt': '',
+            "status": "waiting",
+            "txtStatus": "waiting",
+            "txt": """""",
         }
         self.writeJson(self.filepath, self.speechdata)
 
@@ -73,36 +73,43 @@ class Assist:
         :param event:
         :return:
         """
-        self.speechdata['txt'] = ''
+        self.speechdata["txt"] = ""
         if event.type == EventType.ON_START_FINISHED:
-            print('ON_START_FINISHED')
+            print("ON_START_FINISHED")
 
         if event.type == EventType.ON_CONVERSATION_TURN_STARTED:
-            print('ON_CONVERSATION_TURN_STARTED')
-
-            self.speechdata['status'] = 'start'
-            self.speechdata['txtStatus'] = 'waiting'
-            self.speechdata['txt'] = ''
+            print("ON_CONVERSATION_TURN_STARTED")
+            self.speechdata["status"] = "start"
+            self.speechdata["txtStatus"] = "waiting"
+            self.speechdata["txt"] = ""
             self.writeJson(self.filepath, self.speechdata)
 
         if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
-            print('ON_RECOGNIZING_SPEECH_FINISHED')
+            print("ON_RECOGNIZING_SPEECH_FINISHED")
             print(event.args)
 
-            queryTxt = event.args['text']
-            self.speechdata['status'] = 'talking'
-            self.speechdata['txtStatus'] = 'query'
-            self.speechdata['txt'] = queryTxt
+            queryTxt = event.args["text"]
+            self.speechdata["status"] = "talking"
+            self.speechdata["txtStatus"] = "query"
+            self.speechdata["txt"] = queryTxt
 
             self.writeJson(self.filepath, self.speechdata)
 
-        if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
-                event.args and not event.args['with_follow_on_turn']):
-            print('ON_CONVERSATION_TURN_FINISHED')
+        if event.type == EventType.ON_RESPONDING_STARTED:
+            print("ON_RESPONDING_STARTED")
+            print(event.args)
 
-            self.speechdata['status'] = 'finish'
-            self.speechdata['txtStatus'] = 'waiting'
-            self.speechdata['txt'] = ''
+        if event.type == EventType.ON_RESPONDING_FINISHED:
+            print("ON_RESPONDING_FINISHED")
+            print(event.args)
+
+        if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
+                event.args and not event.args["with_follow_on_turn"]):
+            print("ON_CONVERSATION_TURN_FINISHED")
+
+            self.speechdata["status"] = "finish"
+            self.speechdata["txtStatus"] = "waiting"
+            self.speechdata["txt"] = ""
 
             self.writeJson(self.filepath, self.speechdata)
 
@@ -118,5 +125,5 @@ class Assist:
 
 # import文でモジュールとしてインポートされた場合ではなく
 # コマンドラインから実行された時に「main()」を実行します。
-if __name__ == '__main__':
+if __name__ == "__main__":
     Assist().main()
