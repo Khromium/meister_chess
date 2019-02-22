@@ -51,7 +51,7 @@ class Assist:
             'txtStatus': 'waiting',
             'txt': '',
         }
-        self.writeJson(self.filepath, speechdata)
+        self.writeJson(self.filepath, self.speechdata)
 
     # 「process_event(event)()」にプログラムを追加していきます。
     def process_event(self, event):
