@@ -74,7 +74,8 @@ class Assist:
         :return:
         """
         self.speechdata["txt"] = ""
-        print("args:" + event.args)
+        print("args:")
+        print(event)
 
         if event.type == EventType.ON_START_FINISHED:
             print("ON_START_FINISHED")
@@ -123,6 +124,7 @@ class Assist:
         """
         with Assistant(self.credentials, "zairiki") as assistant:
             for event in assistant.start():
+                assistant.send_text_query("ジョークを言って")
                 self.process_event(event)
 
 
