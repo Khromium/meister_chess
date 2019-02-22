@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# others
+test.pgn
+project/assist/speech.json
