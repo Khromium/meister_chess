@@ -74,6 +74,8 @@ class Assist:
         :return:
         """
         self.speechdata["txt"] = ""
+        print("args:" + event.args)
+
         if event.type == EventType.ON_START_FINISHED:
             print("ON_START_FINISHED")
 
@@ -94,6 +96,7 @@ class Assist:
             self.speechdata["txt"] = queryTxt
 
             self.writeJson(self.filepath, self.speechdata)
+
 
         if event.type == EventType.ON_RESPONDING_STARTED:
             print("ON_RESPONDING_STARTED")
