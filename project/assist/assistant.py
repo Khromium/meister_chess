@@ -122,8 +122,8 @@ class Assist:
         :return:
         """
         with Assistant(self.credentials, "zairiki") as assistant:
-            assistant.send_text_query("ざいりきにつないで")
             for event in assistant.start():
+                assistant.send_text_query("こんにちは")
                 self.process_event(event)
 
 
