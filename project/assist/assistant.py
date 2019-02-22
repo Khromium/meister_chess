@@ -123,7 +123,6 @@ class Assist:
         """
         with Assistant(self.credentials, "zairiki") as assistant:
             for event in assistant.start():
-                assistant.send_text_query("こんにちは")
                 self.process_event(event)
 
 
