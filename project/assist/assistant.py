@@ -62,7 +62,7 @@ class Assist:
         self.speechdata = {
             "status": "waiting",
             "txtStatus": "waiting",
-            "txt": """""",
+            "txt": "",
         }
         self.writeJson(self.filepath, self.speechdata)
 
@@ -98,7 +98,6 @@ class Assist:
 
             self.writeJson(self.filepath, self.speechdata)
 
-
         if event.type == EventType.ON_RESPONDING_STARTED:
             print("ON_RESPONDING_STARTED")
             print(event.args)
@@ -124,7 +123,7 @@ class Assist:
         """
         with Assistant(self.credentials, "zairiki") as assistant:
             for event in assistant.start():
-                assistant.send_text_query("ジョークを言って")
+                assistant.send_text_query(u"ジョークを言って")
                 self.process_event(event)
 
 
