@@ -16,9 +16,15 @@ class Assist:
     # 辞書オブジェクトの定義
     speechdata = {}
     # JSONファイルのパス
-    filepath = "/home/pi/Desktop/speech.json"
+    filepath = "speech.json"
 
     def __init__(self):
+        """
+        初期化部分でJSONの初期化とGoogle assistantの有効化を行っている
+        なお、認証時には
+        /root/.config/google-oauthlib-tool/credentials.json
+        に認証ファイルが必要
+        """
         # Jsonデータ初期化
         self.initJson()
         # GoogleAssistantSDK認証
@@ -38,14 +44,21 @@ class Assist:
                                                                 **json.load(f))
 
 
-    # JSONファイルの書き込み
     def writeJson(self, path, data):
+        """
+        JSONファイルの書き込み
+        :param path:
+        :param data:
+        :return:
+        """
         with open(path, 'w') as f:
             json.dump(data, f, indent=4)
 
-    # JSONデータ用初期化処理
     def initJson(self):
-
+        """
+        JSONデータ用初期化処理
+        :return:
+        """
         self.speechdata = {
             'status': 'waiting',
             'txtStatus': 'waiting',
@@ -53,8 +66,13 @@ class Assist:
         }
         self.writeJson(self.filepath, self.speechdata)
 
-    # 「process_event(event)()」にプログラムを追加していきます。
     def process_event(self, event):
+        """
+        ここでGOOGLE HOMEとのやり取りをテキストとしてフックして
+        必要な処理を加えていくことで処理を実現する。
+        :param event:
+        :return:
+        """
         self.speechdata['txt'] = ''
         if event.type == EventType.ON_START_FINISHED:
             print('ON_START_FINISHED')
@@ -88,9 +106,11 @@ class Assist:
 
             self.writeJson(self.filepath, self.speechdata)
 
-    # 「main()」は主に認証部分です。
     def main(self):
-
+        """
+        GOOGLE ASSISTANTを有効にして処理を行う部分
+        :return:
+        """
         with Assistant(self.credentials, "zairiki") as assistant:
             for event in assistant.start():
                 self.process_event(event)
@@ -99,4 +119,4 @@ class Assist:
 # import文でモジュールとしてインポートされた場合ではなく
 # コマンドラインから実行された時に「main()」を実行します。
 if __name__ == '__main__':
-    Assist.main()
+    Assist().main()
