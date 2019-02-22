@@ -39,6 +39,8 @@ class Assist:
                                 "credentials.json"
                             ),
                             help="Path to store and read OAuth2 credentials")
+        parser.add_argument('--query-text', '--query-text', type=str, metavar='QUERY_TEXT', default='Who am I',
+                            help='comma separated text sent to the Assistant as if it were spoken by the user')
         args = parser.parse_args()
         with open(args.credentials, "r") as f:
             self.credentials = google.oauth2.credentials.Credentials(token=None,
@@ -98,12 +100,10 @@ class Assist:
 
             self.writeJson(self.filepath, self.speechdata)
 
-
         # 応答のテキスト取得
         if event.type == EventType.ON_RENDER_RESPONSE:
             print("ON_RENDER_RESPONSE")
             print(event.args)
-
 
         if event.type == EventType.ON_RESPONDING_STARTED:
             print("ON_RESPONDING_STARTED")
