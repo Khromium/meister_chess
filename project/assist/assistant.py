@@ -98,6 +98,13 @@ class Assist:
 
             self.writeJson(self.filepath, self.speechdata)
 
+
+        # 応答のテキスト取得
+        if event.type == EventType.ON_RENDER_RESPONSE:
+            print("ON_RENDER_RESPONSE")
+            print(event.args)
+
+
         if event.type == EventType.ON_RESPONDING_STARTED:
             print("ON_RESPONDING_STARTED")
             print(event.args)
@@ -123,6 +130,7 @@ class Assist:
         """
         with Assistant(self.credentials, "zairiki") as assistant:
             for event in assistant.start():
+                assistant.send_text_query(u"こんにちは")
                 self.process_event(event)
 
 
