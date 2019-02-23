@@ -2,10 +2,19 @@
 # -*- coding: utf-8 -*-
 import Adafruit_PCA9685
 import time
+import arm.arm_controler as ac
+import arm.servo_controler as sc
 
 # arm
 class arm:
-    def __init__(self, servo0, servo1, servo2, servo3, servo4):
+    def __init__(self):
+        # サーボモータの処理帰化
+        servo0 = sc.servo(Channel=0, ZeroOffset=-5.0)
+        servo1 = sc.servo(Channel=1, ZeroOffset=-5.0)
+        servo2 = sc.servo(Channel=2, ZeroOffset=-5.0)
+        servo3 = sc.servo(Channel=3, ZeroOffset=-5.0)
+        servo4 = sc.servo(Channel=4, ZeroOffset=-5.0)
+
         # pos_list : 0~3のモータの角度をマスごとに保存したリスト（64は盤外，65はホームポジション）
         #                       a                 b                 c                 d                 e                 f                 g                 h
         self.pos_list = [[101,114, 93, 30],[ 96,113, 93, 31],[ 89,111, 93, 35],[ 82,110, 93, 40],[ 75,110, 93, 40],[ 69,111, 93, 39],[ 61,113, 93, 37],[ 58,115, 90, 35],
