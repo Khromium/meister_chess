@@ -68,12 +68,13 @@ class Assist:
         :param query_txt:
         :return:
         """
-        txt = re.sub(r"\n|\s", "", query_txt, flags=(re.MULTILINE | re.DOTALL))
-        print("query: " + txt)
-        piece = self._name_to_character(txt)
-        field = re.search(r"[a-h][1-8]", txt).group(0)
 
         try:
+            txt = re.sub(r"\n|\s", "", query_txt, flags=(re.MULTILINE | re.DOTALL))
+            print("query: " + txt)
+            piece = self._name_to_character(txt)
+            field = re.search(r"[a-h][1-8]", txt).group(0)
+            
             print(piece + "を" + field + "へ動かします。")
 
             san = piece + field
