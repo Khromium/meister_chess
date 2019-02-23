@@ -1,0 +1,45 @@
+*teski
+Servo5.SetPos(90) # hand open
+time.sleep(2)
+Servo5.SetPos(115) # hand close
+time.sleep(2)
+
+*home position
+Servo5.SetPos(90)
+Servo4.SetPos(67)
+Servo3.SetPos(100)
+Servo2.SetPos(35)
+Servo1.SetPos(5)
+Servo0.SetPos(80)
+
+*max
+Servo5.SetPos(90)
+Servo4.SetPos(67)
+Servo3.SetPos(0)
+Servo2.SetPos(80)
+Servo1.SetPos(115)
+
+*e2->e4
+Servo3.SetPos(75)
+Servo2.SetPos(10)
+Servo1.SetPos(35)
+Servo0.SetPos(75)
+
+Servo3.SetPos(100)
+Servo2.SetPos(35)
+Servo1.SetPos(5)
+Servo0.SetPos(80)
+
+Servo3.SetPos(50)
+Servo2.SetPos(13)
+Servo1.SetPos(40)
+Servo0.SetPos(75)
+
+
+*e3
+Servo5.SetPos(90)
+Servo4.SetPos(67)
+Servo3.SetPos(60)
+Servo2.SetPos(5)
+Servo1.SetPos(40)
+Servo0.SetPos(75)

@@ -1,7 +1,5 @@
 import chess
 import chess.pgn
-import chess.svg
-
 
 class Board:
     """
@@ -40,13 +38,13 @@ class Board:
 
     def display_moves(self, game: chess.pgn.Game):
         """
-        動きからゲームを再現します
+        動きからゲームをディスプレイ上で再現します
         :param game: pgn.game データ
         :return:
         """
         for move in game.mainline_moves():
             self.check_move(move)
-            route = self._piece_move(move)
+            route = self.piece_move(move)
             print(str(route))
             self.board.push(move)
             self.check_state()
@@ -55,12 +53,12 @@ class Board:
             print("---------------")
             print("\n")
 
-    def _piece_move(self, move):
+    def piece_move(self, move):
         """
         手からコマの動きを推定して，手先の動きを決める
         現状プロモーションは無視しています
         :param move: 指した手
-        :return arm_route: 手先の経路，-1~63のいずれかを要素に持つ配列，‐1は盤外を意味する
+        :return arm_route: 手先の経路，0~64のいずれかを要素に持つ配列，‐1は盤外を意味する
         """
         board_pre = str(self.board)  # 動かす前の盤面
         board_pre = board_pre.split()
@@ -88,7 +86,7 @@ class Board:
         if len(move_from_list) == 1:
             if len(change_list) == 1:
                 # コマをとるときの動作
-                return [change_list[0], -1, move_from_list[0], change_list[0]]
+                return [change_list[0], 64, move_from_list[0], change_list[0]]
             else:
                 # コマを動かすだけの操作
                 return [move_from_list[0], move_to_list[0]]
@@ -100,9 +98,62 @@ class Board:
                 # アンパッサン
                 if (move_to_list[0] - move_from_list[0]) == 8:
                     # move_from_list[0]がアンパッサンされるポーン
-                    return [move_from_list[1], move_to_list[0], move_from_list[0], -1]
+                    return [move_from_list[1], move_to_list[0], move_from_list[0], 64]
                 else:
-                    return [move_from_list[0], move_to_list[0], move_from_list[1], -1]
+                    return [move_from_list[0], move_to_list[0], move_from_list[1], 64]
+    
+    def piece_move_str(self, move):
+        """
+        手からコマの動きを推定して，手先の動きを決める
+        現状プロモーションは無視しています
+        :param move: 指した手(string)
+        :return arm_route: 手先の経路，0~64のいずれかを要素に持つ配列，64は盤外を意味する，[‐1]はイリーガルムーブ
+        """
+        board_pre = str(self.board)  # 動かす前の盤面
+        board_pre = board_pre.split()
+        try:
+            self.board.push_san(move)
+        except Exception as e:
+            print(str(e))
+            return [-1]
+        board_next = str(self.board)  # 動かした後の盤面
+        board_next = board_next.split()
+        self.board.pop()
+
+        change_list = []
+        move_to_list = []
+        move_from_list = []
+        for i in range(64):
+            if board_next[i] != board_pre[i]:
+                # マスの状態が変わってるときの処理
+                if board_pre[i] != '.' and board_next[i] != '.':
+                    # コマが変わったとき
+                    change_list.append(i)
+                elif board_pre[i] == '.':
+                    # コマをとらずにただ移動したときの移動先
+                    move_to_list.append(i)
+                elif board_next[i] == '.':
+                    # 移動した駒がもともといたマス もしくはアンパッサンで取られたマス
+                    move_from_list.append(i)
+
+        if len(move_from_list) == 1:
+            if len(change_list) == 1:
+                # コマをとるときの動作
+                return [change_list[0], 64, move_from_list[0], change_list[0]]
+            else:
+                # コマを動かすだけの操作
+                return [move_from_list[0], move_to_list[0]]
+        else:
+            if len(move_to_list) == 2:
+                # キャスリング（本来キングから動かすべきだが気にしないことにする）
+                return [move_from_list[0], move_to_list[1], move_from_list[1], move_to_list[0]]
+            else:
+                # アンパッサン
+                if (move_to_list[0] - move_from_list[0]) == 8:
+                    # move_from_list[0]がアンパッサンされるポーン
+                    return [move_from_list[1], move_to_list[0], move_from_list[0], 64]
+                else:
+                    return [move_from_list[0], move_to_list[0], move_from_list[1], 64]
 
     def check_state(self):
         """
@@ -122,11 +173,22 @@ class Board:
             print("it's fivefold repetition")
 
     def check_move(self, move: chess.Move):
-        """
-        動きが正常かどうか確認する部分
-        TODO: その他の動きも正常かどうか確認処理を追加する
-        """
         if not self.board.is_legal(move):
             print("動きが不正です")
         if self.board.is_castling(move) or self.board.is_kingside_castling(move):
             print("キャスリングだよ")
+    
+    def check_game_over(self):
+        if self.board.is_game_over():
+            return True
+        else:
+            return False
+    
+    def push_move(self, move):
+        self.board.push(move)
+    
+    def print_board(self):
+        print("---------------")
+        print(self.board)
+        print("---------------")
+        print("\n")
