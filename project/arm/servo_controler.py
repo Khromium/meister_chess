@@ -28,6 +28,7 @@ class servo:
         pulse = (650.0-150.0)/180.0*pos + 150.0 + self.ZeroOffset
         self.pwm.set_pwm(self.Channel, 0, int(pulse))
         self.pos = pos
+        time.sleep(0.004)
     
     def get_pos(self):
         return self.pos
