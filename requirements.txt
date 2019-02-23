@@ -1,1 +1,6 @@
 python-chess
+setuptools
+wheel
+google-assistant-library==1.0.0
+google-assistant-sdk[samples]==0.5.1
+google-auth-oauthlib[tool]
