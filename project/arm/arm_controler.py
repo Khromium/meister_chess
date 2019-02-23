@@ -8,12 +8,12 @@ import arm.servo_controler as sc
 # arm
 class arm:
     def __init__(self):
-        # サーボモータの処理帰化
-        servo0 = sc.servo(Channel=0, ZeroOffset=-5.0)
-        servo1 = sc.servo(Channel=1, ZeroOffset=-5.0)
-        servo2 = sc.servo(Channel=2, ZeroOffset=-5.0)
-        servo3 = sc.servo(Channel=3, ZeroOffset=-5.0)
-        servo4 = sc.servo(Channel=4, ZeroOffset=-5.0)
+        # サーボモータの初期化
+        self.servo0 = sc.servo(Channel=0, ZeroOffset=-5.0)
+        self.servo1 = sc.servo(Channel=1, ZeroOffset=-5.0)
+        self.servo2 = sc.servo(Channel=2, ZeroOffset=-5.0)
+        self.servo3 = sc.servo(Channel=3, ZeroOffset=-5.0)
+        self.servo4 = sc.servo(Channel=4, ZeroOffset=-5.0)
 
         # pos_list : 0~3のモータの角度をマスごとに保存したリスト（64は盤外，65はホームポジション）
         #                       a                 b                 c                 d                 e                 f                 g                 h
@@ -26,12 +26,7 @@ class arm:
                         [130, 75, 50, 83],[121, 46, 20, 69],[110, 51, 20, 77],[ 94, 39, 10, 76],[ 72, 25,  5, 72],[ 52, 27,  3, 68],[ 38, 35, 11, 67],[ 31, 43, 20, 67],
                         [143, 70, 45, 86],[135, 70, 35, 90],[118, 25,  3, 75],[100, 25,  2, 85],[ 72, 25,  1, 86],[ 47, 25,  2, 84],[ 26, 25,  2, 75],[ 18, 25,  2, 55],
                         [160, 35,  8, 50],[ 80,  6, 35, 75]]
-        self.servo0 = servo0
-        self.servo1 = servo1
-        self.servo2 = servo2
-        self.servo3 = servo3
-        self.servo4 = servo4
-        
+
         self.servo4.set_pos(40)
         self.servo0.set_pos(80)
         self.servo1.set_pos(6)
