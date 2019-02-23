@@ -14,7 +14,7 @@ class ChessMachine:
         if assist:
             # 参照をそのまま渡してマルチスレッド化することによって音声入力を並列でできるようにする。
             # TODO: 当日試してダメだったら無効にする
-            threading.Thread(target=self.background).start()
+            threading.Thread(target=self._background).start()
 
     def _background(self):
         assist = Assist(self.board, self.arm)

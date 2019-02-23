@@ -85,14 +85,14 @@ class Assist:
             print('無効な移動です。')
         self.arm.home_pos()
 
-    def _writeJson(path, data):
+    def _writeJson(path, filepath ,data):
         """
         JSONファイルの書き込み
         :param path:
         :param data:
         :return:
         """
-        with open(path, "w") as f:
+        with open(filepath, "w") as f:
             json.dump(data, f, indent=4)
 
     def _initJson(self):
