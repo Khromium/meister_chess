@@ -71,19 +71,23 @@ class Assist:
         txt = re.sub(r"\n\s", "", query_txt, flags=(re.MULTILINE | re.DOTALL))
         piece = self._name_to_character(txt)
         field = re.search(r"[a-h][1-8]", txt)
-        print(piece + "を" + field + "へ動かします。")
 
-        san = piece + field
-        route = self.board.piece_move_str(san)
-        if len(route) != 1:  # イリーガルムーブだとrouteに[-1]が入ってる
-            for pos in route:
-                self.arm.move_pos(pos)
-            print(str(route))
-            self.board.board.push_san(san)
-            self.board.check_state()
-        else:
-            print('無効な移動です。')
-        self.arm.home_pos()
+        try:
+            print(piece + "を" + field + "へ動かします。")
+
+            san = piece + field
+            route = self.board.piece_move_str(san)
+            if len(route) != 1:  # イリーガルムーブだとrouteに[-1]が入ってる
+                for pos in route:
+                    self.arm.move_pos(pos)
+                print(str(route))
+                self.board.board.push_san(san)
+                self.board.check_state()
+            else:
+                print('無効な移動です。')
+            self.arm.home_pos()
+        except Exception as e:
+            print("無効な入力です")
 
     def _writeJson(path, filepath ,data):
         """
