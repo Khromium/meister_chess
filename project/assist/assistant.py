@@ -39,8 +39,8 @@ class Assist:
                                 "credentials.json"
                             ),
                             help="Path to store and read OAuth2 credentials")
-        parser.add_argument('--query-text', '--query-text', type=str, metavar='QUERY_TEXT', default='Who am I',
-                            help='comma separated text sent to the Assistant as if it were spoken by the user')
+        # parser.add_argument('--query-text', '--query-text', type=str, metavar='QUERY_TEXT', default='Who am I',
+        #                     help='comma separated text sent to the Assistant as if it were spoken by the user')
         args = parser.parse_args()
         with open(args.credentials, "r") as f:
             self.credentials = google.oauth2.credentials.Credentials(token=None,
@@ -76,8 +76,8 @@ class Assist:
         :return:
         """
         self.speechdata["txt"] = ""
-        print("args:")
-        print(event)
+        # print("args:")
+        # print(event)
 
         if event.type == EventType.ON_START_FINISHED:
             print("ON_START_FINISHED")
@@ -130,7 +130,6 @@ class Assist:
         """
         with Assistant(self.credentials, "zairiki") as assistant:
             for event in assistant.start():
-                assistant.send_text_query(u"こんにちは")
                 self.process_event(event)
 
 
