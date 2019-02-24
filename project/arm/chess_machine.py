@@ -116,7 +116,9 @@ class ChessMachine:
                 while True:
                     move = input()
                     route = self.board.piece_move_str(move)
-                    if len(route) != 1:  # イリーガルムーブだとrouteに[-1]が入ってる
+                    if self.board.turn:
+                        break
+                    elif len(route) != 1:  # イリーガルムーブだとrouteに[-1]が入ってる
                         for pos in route:
                             self.arm.move_pos(pos)
                         print(str(route))
